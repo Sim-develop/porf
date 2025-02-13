@@ -3,12 +3,13 @@
  */
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Counter from "./counter-test";
+import { Counter } from "./index";
+
 describe("counter-test", () => {
   it("renders a heading", () => {
-    render(<Counter initialCount={0} />);
+    render(<Counter initialCount={1} />);
     const countValue = screen.getByTestId("count").textContent;
-    expect(Number(countValue)).toEqual(0);
+    expect(Number(countValue)).toEqual(1);
   });
 });
 
