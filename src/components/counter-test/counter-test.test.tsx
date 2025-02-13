@@ -2,64 +2,49 @@
  * @jest-environment jsdom
  */
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Counter } from "./index";
 
 describe("counter-test", () => {
   it("renders a heading", () => {
-    render(<Counter initialCount={1} />);
-    const countValue = screen.getByTestId("count").textContent;
-    expect(Number(countValue)).toEqual(1);
+    const { getByTestId } = render(<Counter initialCount={1} />);
+    const countValue = Number(getByTestId("count").textContent);
+    expect(countValue).toEqual(1);
+  });
+
+  it("count should increment by 1 if the increment button is clicked", () => {
+    const { getByTestId, getByRole } = render(<Counter initialCount={0} />);
+    const incrementButton = getByRole("button", { name: /Increment/i });
+    const countValueBefore = Number(getByTestId("count").textContent);
+    expect(countValueBefore).toEqual(0);
+    fireEvent.click(incrementButton);
+    const countValueAfter = Number(getByTestId("count").textContent);
+    expect(countValueAfter).toEqual(1);
+  });
+
+  it("count should decrement by 1 if the decrement button is clicked", () => {
+    const { getByTestId, getByRole } = render(<Counter initialCount={1} />);
+    const decrementButton = getByRole("button", { name: /Decrement/i });
+    const countValueBefore = Number(getByTestId("count").textContent);
+    expect(countValueBefore).toEqual(1);
+    fireEvent.click(decrementButton);
+    const countValueAfter = Number(getByTestId("count").textContent);
+    expect(countValueAfter).toEqual(0);
+  });
+
+  it("count should restart to initial value if the restart button is clicked", () => {
+    const { getByTestId, getByRole } = render(<Counter initialCount={5} />);
+    const restartButton = getByRole("button", { name: /Restart/i });
+    fireEvent.click(restartButton);
+    const countValue = Number(getByTestId("count").textContent);
+    expect(countValue).toEqual(5);
+  });
+
+  it("count should switch signs if the switch signs button is clicked", () => {
+    const { getByTestId, getByRole } = render(<Counter initialCount={5} />);
+    const switchSignsButton = getByRole("button", { name: /Switch Signs/i });
+    fireEvent.click(switchSignsButton);
+    const countValue = Number(getByTestId("count").textContent);
+    expect(countValue).toEqual(-5);
   });
 });
-
-// describe("counter-test", () => {
-//   it("renders a heading", () => {
-//     render(<Counter initialCount={0} />);
-
-//     const heading = screen.getByRole("heading", {
-//       name: /count:/i,
-//     });
-//     expect(heading).toBeInTheDocument();
-//   });
-
-//   it("increments the count", () => {
-//     render(<Counter initialCount={0} />);
-
-//     const incrementButton = screen.getByText("Increment");
-//     fireEvent.click(incrementButton);
-
-//     const count = screen.getByTestId("count");
-//     expect(count).toHaveTextContent("1");
-//   });
-
-//   it("decrements the count", () => {
-//     render(<Counter initialCount={1} />);
-
-//     const decrementButton = screen.getByText("Decrement");
-//     fireEvent.click(decrementButton);
-
-//     const count = screen.getByTestId("count");
-//     expect(count).toHaveTextContent("0");
-//   });
-
-//   it("restarts the count", () => {
-//     render(<Counter initialCount={5} />);
-
-//     const restartButton = screen.getByText("Restart");
-//     fireEvent.click(restartButton);
-
-//     const count = screen.getByTestId("count");
-//     expect(count).toHaveTextContent("5");
-//   });
-
-//   it("switches the sign of the count", () => {
-//     render(<Counter initialCount={5} />);
-
-//     const switchSignsButton = screen.getByText("Switch Signs");
-//     fireEvent.click(switchSignsButton);
-
-//     const count = screen.getByTestId("count");
-//     expect(count).toHaveTextContent("-5");
-//   });
-// });
