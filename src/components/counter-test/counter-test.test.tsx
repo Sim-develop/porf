@@ -3,7 +3,8 @@
  */
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import Counter from "./counter-test";
+import { Counter } from "./index";
+
 describe("counter-test", () => {
   it("renders a heading", () => {
     render(<Counter initialCount={1} />);
