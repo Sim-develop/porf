@@ -10,9 +10,7 @@ const Counter = ({ initialCount }: { initialCount: number }) => {
     setCount((prevCount) => prevCount + 1);
   };
   const decrement = () => {
-    if (count > 0) {
-      setCount((prevCount) => prevCount - 1);
-    }
+    setCount((prevCount) => prevCount - 1);
   };
   const restart = () => {
     setCount(initialCount);
