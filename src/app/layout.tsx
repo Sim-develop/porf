@@ -29,7 +29,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased mt-[60px]`}
       >
         <NavigationBar />
-        {children}
+        <div className="w-full flex justify-center">
+          <div className="w-full lg:max-w-5xl">{children}</div>
+        </div>
       </body>
     </html>
   );
